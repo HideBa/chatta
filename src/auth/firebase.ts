@@ -1,5 +1,7 @@
-import firebase from "firebase";
-import Vue from "vue";
+import "firebase/auth";
+import firebase from "firebase/app";
+import * as firebaseui from "firebaseui";
+import "firebaseui/dist/firebaseui.css";
 
 const firebaseConfig = {
   apiKey: process.env.VUE_APP_API_KEY,
@@ -13,6 +15,23 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-firebase.analytics();
+export const uiConfig = {
+  callbacks: {
+    signInSuccessWithAuthResult: (authResult: any, redirectUrl: any) => {
+      console.log(authResult);
+      console.log(redirectUrl);
+      return true;
+    },
+    uiShown: () => {
+      const loader = document.getElementById("loader");
+      if (!loader) return;
+      loader.style.display = "none";
+    },
+  },
+  signInFlow: "popup",
+  signInSuccessUrl: process.env.BASE_URL,
+  signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+};
+export const ui = new firebaseui.auth.AuthUI(firebase.auth());
 
 export default firebase;
