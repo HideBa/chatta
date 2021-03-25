@@ -32,6 +32,9 @@ export const uiConfig = {
   signInSuccessUrl: process.env.BASE_URL,
   signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
 };
-export const ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+export const auth = firebase.auth();
+
+export const ui = new firebaseui.auth.AuthUI(auth);
 
 export default firebase;
