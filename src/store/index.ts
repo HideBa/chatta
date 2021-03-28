@@ -7,8 +7,10 @@
 //   modules: {},
 // });
 
+import { auth } from "@/auth/firebase";
 import { inject, InjectionKey, reactive, watch } from "vue";
 import firebase from "firebase/app";
+import router from "@/router";
 
 export type CurrentUser = firebase.User | null | undefined;
 
@@ -20,15 +22,26 @@ export const authStore = () => {
   const userState = reactive<UserStore>({
     user: undefined,
   });
+
+  const logOut = async () => {
+    try {
+      await auth.signOut();
+      router.push("/sign");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const setUser = (user: CurrentUser) => {
     userState.user = user;
   };
-  firebase.auth().onAuthStateChanged((user) => {
-    console.log("state -------");
+
+  auth.onAuthStateChanged((user) => {
     setUser(user);
   });
   return {
     userState,
+    logOut,
   };
 };
 

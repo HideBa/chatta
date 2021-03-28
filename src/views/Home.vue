@@ -1,14 +1,16 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <nav-header />
+    <router-link to="/talks">Talk</router-link>
   </div>
 </template>
 
 <script lang="ts">
+import NavHeader from "@/components/NavHeader.vue";
 import { Options, Vue } from "vue-class-component";
 
 @Options({
-  components: {},
+  components: { NavHeader },
 })
 export default class Home extends Vue {}
 </script>
